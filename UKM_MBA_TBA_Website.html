@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think Build Act Project</title>
+    <style>
+        @keyframes tideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        60% {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+
+        .gallery-header {
+            display: flex;
+            align-items: center;
+            gap: 1px;
+            margin-bottom: -3rem;
+            animation: tideIn 2.2s ease-out forwards;
+        }
+
+        .gallery-logo {
+            width: 190px;      /* control size here */
+            height: 190px;
+            border-radius: 8px;
+            object-fit: contain;
+
+            /* prevents layout push */
+            position: relative;
+            top: 5px;
+            animation: tideIn 1.8s ease-out forwards;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #5b9237;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #1a5f4a 0%, #2d8659 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #a8d5ba;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0f4c3a 0%, #1a7a5c 100%);
+            color: white;
+            padding: 80px 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            font-family: 'impact';
+            text-shadow: #030303 8px 10px 8px;
+        }
+        .River {
+            color: #42ac67;
+            text-shadow:#000000 2px 2px 2px;
+
+        }
+
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-button {
+            background: #2ecc71;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 60px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h2 {
+            color: #0f4c3a;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #2ecc71;
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+        
+        /* About Section */
+        .about {
+            background: #f8faf7;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            color: #1a5f4a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        /* Media Sections */
+        .media-section {
+            background: white;
+        }
+        
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .media-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-top: 4px solid #2ecc71;
+        }
+        
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .media-placeholder {
+            /*width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a5f4a;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;*/
+            width: 100%;
+            aspect-ratio: 4 / 3;   /* keeps card height consistent */
+            position: relative;
+            cursor: pointer;
+            background: #e8f5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .media-placeholder input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .media-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;     /* magic line */
+            border-radius: 12px;
+            display: block;
+        }
+        
+        .media-info {
+            padding: 1.5rem;
+        }
+        
+        .media-info h3 {
+            color: #0f4c3a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .media-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Impact Stats */
+        .stats {
+            background: linear-gradient(135deg, #0f4c3a 0%, #1a7a5c 100%);
+            color: white;
+        }
+        
+        .stats h2 {
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .stat-card {
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2ecc71;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Timeline */
+        .timeline {
+            background: #f8faf7;
+        }
+        
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+        
+        .timeline-item:nth-child(even) {
+            direction: rtl;
+        }
+        
+        .timeline-item:nth-child(even) > * {
+            direction: ltr;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #2ecc71;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-date {
+            color: #2ecc71;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            color: #0f4c3a;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: #f8faf7;
+            text-align: center;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #0f4c3a;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2ecc71;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0f4c3a;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+        }
+        
+        .upload-text {
+            font-size: 0.9rem;
+            color: #1a5f4a;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#impact">Impact</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>🌊 <span class ="River">River Cleanup & Coastal Preservation</span></h1>
+        <p>Restoring Our Rivers, Protecting Our Future</p>
+        <button class="cta-button" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">Learn More</button>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2>About Our Mission</h2>
+        <div class="about-content">
+            <div>
+                <div style="text-align: center;">
+                    <img id="aboutImage" src="TBA website About our mission.jpg" alt="About" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">" <!--display: none;">-->
+                    <input type="file" id="aboutImageInput" accept="image/*" onchange="uploadAboutImage(event)" style="display: none;">
+                    <!--<div onclick="document.getElementById('aboutImageInput').click()" style="cursor: pointer; padding: 2rem; background: #e8f5e9; border-radius: 12px; color: #1a5f4a; font-weight: 600;">
+                        📸 Click to upload about image
+                    </div>-->
+                </div>
+            </div>
+            <div class="about-text">
+                <h3>Making a Difference</h3>
+                <p>The Sungai Klang, one of Malaysia's most important rivers, faces severe pollution challenges. Our project aims to clean, restore, and protect this vital waterway for future generations.</p>
+                <p><strong>Our Goals:</strong></p>
+                <ul style="margin-left: 1.5rem;">
+                    <li>Remove plastic and waste from the river</li>
+                    <li>Restore native aquatic ecosystem</li>
+                    <li>Raise environmental awareness</li>
+                    <li>Create sustainable solutions</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Photo Gallery Section -->
+    <section class="media-section" id="gallery">
+        <div class="gallery-header"></div>
+        <img 
+        src="TBA Logo v3 (1).png" 
+        alt="Gallery Logo"
+        class="gallery-logo"
+        
+        >
+        <h2>📸 Photo Gallery</h2>
+        <div class="media-grid" id="photoGallery">
+            <!-- Photo cards will be generated here -->
+        </div>
+    </section>
+    
+    <!-- Video Gallery Section -->
+    <section class="media-section">
+        <h2>🎥 Video Gallery</h2>
+        <div class="media-grid" id="videoGallery">
+            <!-- Video cards will be generated here -->
+        </div>
+    </section>
+    
+    <!-- Impact Stats -->
+    <section class="stats" id="impact">
+        <h2>Our Impact</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="stat1">0</div>
+                <div class="stat-label">Kg of Waste Removed</div>
+                <input type="number" placeholder="Update number" onchange="updateStat(this.value, 'stat1')" style="margin-top: 1rem; padding: 0.5rem; width: 80%; border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; color: white; text-align: center;">
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat2">0</div>
+                <div class="stat-label">Volunteers Engaged</div>
+                <input type="number" placeholder="Update number" onchange="updateStat(this.value, 'stat2')" style="margin-top: 1rem; padding: 0.5rem; width: 80%; border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; color: white; text-align: center;">
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat3">0</div>
+                <div class="stat-label">Cleanup Events</div>
+                <input type="number" placeholder="Update number" onchange="updateStat(this.value, 'stat3')" style="margin-top: 1rem; padding: 0.5rem; width: 80%; border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; color: white; text-align: center;">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Timeline Section -->
+    <section class="timeline" id="timeline">
+        <h2>Project Timeline</h2>
+        <div class="timeline-item">
+            <div></div>
+            <div class="timeline-content">
+                <div class="timeline-date">January 2024</div>
+                <div class="timeline-title">Project Launch</div>
+                <p>Official kickoff of the Sungai Klang Cleanup Initiative with community partners.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">March 2024</div>
+                <div class="timeline-title">First Major Cleanup</div>
+                <p>Successfully organized first large-scale cleanup event with 500+ volunteers.</p>
+            </div>
+            <div></div>
+        </div>
+        <div class="timeline-item">
+            <div></div>
+            <div class="timeline-content">
+                <div class="timeline-date">June 2024</div>
+                <div class="timeline-title">Ecosystem Recovery Begins</div>
+                <p>Native aquatic species returning to cleaned sections of the river.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2>Get Involved</h2>
+        <div class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Your email">
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" rows="5" placeholder="Tell us how you'd like to help"></textarea>
+            </div>
+            <button class="cta-button" onclick="submitForm()">Send Message</button>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Sungai Klang Cleanup Project. Together, we restore our river. 🌿</p>
+    </footer>
+    
+    <script>
+        // Initialize photo and video galleries
+            const images = [
+                {src: 'TBA banner image.jpeg', title: 'TBA Banner Image',description: 'Banner image for the event'},
+                {src: 'photo2.jpg', title: 'Photo 2', description: 'Photo of cleanup volunteers'},
+                {src: 'photo3.jpg', title: 'Photo 3', description: 'Cleaned river section'},
+                {src: 'photo4.jpg', title: 'Photo 4', description: 'Community engagement event'}
+            ];
+        /*function initializeGalleries() {
+            const photoGallery = document.getElementById('photoGallery');
+            const videoGallery = document.getElementById('videoGallery');
+            
+            // Create 4 photo cards
+            for (let i = 1; i <= 4; i++) {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <div class="media-placeholder" onclick="document.getElementById('photo${i}Input').click()">
+                        <input type="file" id="photo${i}Input" accept="image/*" onchange="uploadPhoto(${i}, event)" style="display: none;">
+                        <img id="photo${i}" src="" style="display: none;">
+                        <span id="photo${i}Placeholder">📸</span>
+                    </div>
+                    <div class="media-info">
+                        <h3>Cleanup Photo <span id="photoTitle${i}">Click to add</span></h3>
+                        <p>Click on image to upload your photo</p>
+                    </div>
+                `;
+                photoGallery.appendChild(card);*/
+
+                /*for (let i = 0; i < images.length; i++) {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <div class="media-placeholder">
+                        <img src="${images[i]}" alt="Cleanup Photo ${i + 1}">
+                    </div>
+                    <div class="media-info">
+                        <h3>Cleanup Photo ${i + 1}</h3>
+                        <p>River cleanup activity</p>
+                    </div>
+                `;
+                photoGallery.appendChild(card);
+                }*/
+                for (let i = 0; i < images.length; i++) {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <div class="media-placeholder">
+                        <img src="${images[i].src}" alt="${images[i].title}">
+                    </div>
+                    <div class="media-info">
+                        <h3>${images[i].title}</h3>
+                        <p>${images[i].description}</p>
+                    </div>
+                `;
+                photoGallery.appendChild(card);
+                }       
+            
+            // Create 3 video cards
+            for (let i = 1; i <= 3; i++) {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <div class="media-placeholder" onclick="document.getElementById('video${i}Input').click()">
+                        <input type="file" id="video${i}Input" accept="video/*" onchange="uploadVideo(${i}, event)" style="display: none;">
+                        <video id="video${i}" style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
+                        <span id="video${i}Placeholder">🎥</span>
+                    </div>
+                    <div class="media-info">
+                        <h3>Event Video <span id="videoTitle${i}">Click to add</span></h3>
+                        <p>Click on video area to upload your video</p>
+                    </div>
+                `;
+                videoGallery.appendChild(card);
+            }
+        
+        
+        // Upload photo function
+        /*function uploadPhoto(num, event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(`photo${num}`);
+                    const placeholder = document.getElementById(`photo${num}Placeholder`);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    document.getElementById(`photoTitle${num}`).textContent = file.name.substring(0, 15);
+                };
+                reader.readAsDataURL(file);
+            }
+        }*/
+        
+        // Upload video function
+        function uploadVideo(num, event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const video = document.getElementById(`video${num}`);
+                    const placeholder = document.getElementById(`video${num}Placeholder`);
+                    video.src = e.target.result;
+                    video.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    document.getElementById(`videoTitle${num}`).textContent = file.name.substring(0, 15);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Upload about image
+        /*function uploadAboutImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('aboutImage');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.querySelector('.about-content > div:first-child > div').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }*/
+        
+        // Update stats
+        function updateStat(value, statId) {
+            document.getElementById(statId).textContent = value;
+        }
+        
+        // Submit form
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                alert('Thank you for your message! We will get back to you soon.');
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('message').value = '';
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeGalleries);
+    </script>
+</body>
+</html>
